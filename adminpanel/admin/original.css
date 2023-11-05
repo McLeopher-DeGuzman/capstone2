@@ -10238,7 +10238,10 @@ button,
     background-image: linear-gradient(to right, #434343 0%, black 100%) !important;
 }
 .bg-happy-green {
-    background-image: linear-gradient(to bottom, #00b09b, #96c93d) !important;
+    background-image: linear-gradient(to bottom, #FF7377, #FF7377) !important;
+}
+.bg-happy-red {
+    background-image: linear-gradient(to bottom, #FF7377, #FF7377) !important;
 }
 .bg-vicious-stance {
     background-image: linear-gradient(60deg, #29323c 0%, #485563 100%) !important;

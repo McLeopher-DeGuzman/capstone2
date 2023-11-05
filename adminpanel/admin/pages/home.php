@@ -262,6 +262,8 @@
         .data-table a:hover {
             color: #3d68ff;
         }
+
+
     </style>
 </head>
 <body class="bg-gray-100 font-family-karla flex">
@@ -269,38 +271,38 @@
         <main class="w-full flex-grow p-6">
             <!-- <h1 class="text-3xl text-black pb-6">Dashboard</h1> -->
 
-            <div class="flex flex-wrap mt-6">
-                <div class="w-full lg:w-1/2 pr-0 lg:pr-2">
+            <!-- <div class="flex flex-wrap mt-6"> -->
+                <!-- <div class="w-full lg:w-1/2 pr-0 lg:pr-2">
                     <p class="text-xl pb-3 flex items-center">
                         <i class="fas fa-plus mr-3"></i> Monthly Reports
                     </p>
                     <div class="p-6 bg-white chart-container">
                         <canvas id="chartOne"></canvas>
                     </div>
-                </div>
+                </div> -->
                 <div class="w-full lg:w-1/2 pl-0 lg:pl-2 mt-12 lg:mt-0">
                     <p class="text-xl pb-3 flex items-center">
                         <i class="fas fa-check mr-3"></i> Resolved Reports
                     </p>
                     <div class="p-6 bg-white chart-container">
-                        <canvas id="chartTwo"></canvas>
+                        <canvas id="chartTwo" style="height: 500px; width: 500px"></canvas>
                     </div>
                 </div>
-            </div>
+            
 
             <div class="w-full mt-12">
                 <p class="text-xl pb-3 flex items-center">
                     <i class="fas fa-list mr-3"></i> Latest Reports
                 </p>
                 <div class="bg-white overflow-auto">
-                    <table class="min-w-full data-table">
+                    <table class="w-full data-table">
                         <thead class="bg-gray-800 text-white">
                             <tr>
-                                <th class="w-1/3">Name</th>
+                                <th class="w-1/4">Name</th>
                                 <!-- <th class="w-1/3">Last Name</th> -->
                                 <th>Score</th>
                                 <th>Percentage</th>
-                                <th>Course Recommendation</th>
+                                <th class="w-*">Course Recommendation</th>
                             </tr>
                         </thead>
                         <tbody class="text-gray-700">
@@ -364,10 +366,10 @@
                                            <td>
                                                     <?php
                                                     if ($formattedAns >= 30.00 && $formattedAns <= 40.00) {
-                                                        echo "Bachelor of Information Technology";
+                                                        echo "Bachelor of Science in Information Technology";
                                                     }
                                                     elseif ($formattedAns >= 40.00 && $formattedAns <= 50.00) {
-                                                        echo "Bachelor Of Walang Kwenta";
+                                                        echo "Bachelor of Science in Business Administration";
                                                     }
                                                     ?> 
                                            </td>
@@ -399,7 +401,7 @@
     </div>
 
     <!-- Alpine.js -->
-    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+    <!-- <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
     <script>
         // Sample chart data (you can replace this with your data)
         var chartDataOne = {
@@ -481,8 +483,151 @@
                 }
             });
         });
-    </script>
+    </script> -->
+    <?php
+$subjectCounts = [
+    
+    'Bachelor of Science in Business Administration' => 0,
+    'Bachelor of Science in Business ' => 0,
+    'Bachelor of Science in Information Technology' => 0,
+];
+
+$selExmne = $conn->query("SELECT * FROM examinee_tbl et INNER JOIN exam_attempt ea ON et.exmne_id = ea.exmne_id ORDER BY ea.examat_id DESC");
+
+if ($selExmne->rowCount() > 0) {
+    while ($selExmneRow = $selExmne->fetch(PDO::FETCH_ASSOC)) {
+        $eid = $selExmneRow['exmne_id'];
+        $selScore = $conn->query("SELECT * FROM exam_question_tbl eqt INNER JOIN exam_answers ea ON eqt.eqt_id = ea.quest_id AND eqt.exam_answer = ea.exans_answer  WHERE ea.axmne_id='$eid' AND ea.exam_id='$exam_id' AND ea.exans_status='new' ");
+        $score = $selScore->rowCount();
+        $over = $selExName['ex_questlimit_display'];
+
+        $formattedAns = number_format($score / $over * 100, 2);
+
+        if ($formattedAns >= 30.00 && $formattedAns <= 40.00) {
+            $subject = "Bachelor of Science in Information Technology";
+        } elseif ($formattedAns >= 40.00 && $formattedAns <= 50.00) {
+            $subject = "Bachelor of Science in Business Administration";
+        } 
+        elseif ($formattedAns >= 40.00 && $formattedAns <= 50.00) {
+            $subject = "Bachelor of Science in Business A";
+        }
+        
+       
+        $subjectCounts[$subject]++;
+       
+    }
+}
+?>
+
+<!-- The rest of your HTML code -->
+
+<script>
+    // Sample chart data (you can replace this with your data)
+    var chartDataTwo = {
+        labels: <?php echo json_encode(array_keys($subjectCounts)); ?>,
+        datasets: [{
+            label: 'Number of Students',
+            data: <?php echo json_encode(array_values($subjectCounts)); ?>,
+            borderColor: 'rgba(75, 192, 192, 1)', // Line color
+            borderWidth: 5, // Line width
+            fill: false, // Don't fill the area under the line
+        }]
+    };
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var chartTwo = new Chart(document.getElementById('chartTwo'), {
+            type: 'line', // Use a line chart
+            data: chartDataTwo,
+            options: {
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Courses',
+                        },
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Number of Students',
+                        },
+                    },
+                },
+                elements: {
+                    point: {
+                        radius: 4, // Increase the point size
+                        hoverRadius: 5,
+                    },
+                    line: {
+                        borderColor: 'rgba(75, 192, 192, 1)', // Change the line color
+                    },
+                },
+                plugins: {
+                    legend: {
+                        display: false, // Hide the legend
+                    },
+                },
+                maintainAspectRatio: true, // Adjust the aspect ratio for a better height
+            },
+        });
+    });
+</script>
+
 </body>
 </html>
 
     </div>
+
+    <!-- <?php 
+$chartData = array();
+$labels = array();
+$data = array();
+
+$selExmne = $conn->query("SELECT * FROM examinee_tbl et INNER JOIN exam_attempt ea ON et.exmne_id = ea.exmne_id ORDER BY ea.examat_id DESC ");
+if($selExmne->rowCount() > 0)
+{
+    while ($selExmneRow = $selExmne->fetch(PDO::FETCH_ASSOC)) {
+        $eid = $selExmneRow['exmne_id'];
+        $selScore = $conn->query("SELECT * FROM exam_question_tbl eqt INNER JOIN exam_answers ea ON eqt.eqt_id = ea.quest_id AND eqt.exam_answer = ea.exans_answer  WHERE ea.axmne_id='$eid' AND ea.exam_id='$exam_id' AND ea.exans_status='new' ");
+        $score = $selScore->rowCount();
+        $over  = $selExName['ex_questlimit_display'];
+        $ans = $score / $over * 100;
+        $formattedAns = number_format($ans, 2);
+
+        array_push($labels, $selExmneRow['exmne_fullname']);
+        array_push($data, $formattedAns);
+    }
+}
+
+$chartData['labels'] = $labels;
+$chartData['data'] = $data;
+?>
+
+<script>
+    var chartDataOne = {
+        labels: <?php echo json_encode($chartData['labels']); ?>,
+        datasets: [{
+            label: '# of Votes',
+            data: <?php echo json_encode($chartData['data']); ?>,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    };
+
+    // Rest of your chart code here
+</script> -->

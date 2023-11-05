@@ -159,7 +159,7 @@
             <div>
                 <a href="./chatbot/index.php">
             <!-- <button type="button" id="TooltipDemo" class="btn-open-options btn btn-warning" style="top: 110px !important;"> -->
-            <i class='fas fa-comment' style='font-size:48px;color: #FF7377'></i>
+            <!-- <i class='fas fa-comment' style='font-size:48px;color: #FF7377'></i> -->
             </div>
        
     </div>

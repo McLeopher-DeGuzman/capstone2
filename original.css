@@ -10185,7 +10185,7 @@ button,
     background-image: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%) !important;
 }
 .bg-night-fade {
-    background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%) !important;
+    background-image: linear-gradient(to top, #FF7377 0%, #FF7377 100%) !important;
 }
 .bg-sunny-morning {
     background-image: linear-gradient(120deg, #f6d365 0%, #fda085 100%) !important;
@@ -10239,7 +10239,7 @@ button,
     background-image: linear-gradient(to right, #434343 0%, black 100%) !important;
 }
 .bg-happy-green {
-    background-image: linear-gradient(to bottom, #00b09b, #96c93d) !important;
+    background-image: linear-gradient(to bottom, #FF7377, #FF7377) !important;
 }
 .bg-vicious-stance {
     background-image: linear-gradient(60deg, #29323c 0%, #485563 100%) !important;

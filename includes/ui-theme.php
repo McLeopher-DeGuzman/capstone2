@@ -7,10 +7,10 @@
 </head>
 <body>
      <div class="ui-theme-settings">
-    <a href="">
+    <!-- <a href="">
             <button type="button" id="TooltipDemo" class="btn-open-options btn btn-warning" style="top: 110px !important;">
     <i class="fa fa-comments fa-2x"></i>
-</button> 
+</button>  -->
 
             <div class="theme-settings__inner">
                 <div class="scrollbar-container">
