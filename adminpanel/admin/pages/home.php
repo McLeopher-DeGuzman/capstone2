@@ -203,7 +203,7 @@
             <!-- <?php include("includes/graph.php"); ?> -->
       
         
-        </div>
+        <!-- </div> -->
           <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -368,7 +368,7 @@
                                                     if ($formattedAns >= 30.00 && $formattedAns <= 40.00) {
                                                         echo "Bachelor of Science in Information Technology";
                                                     }
-                                                    elseif ($formattedAns >= 40.00 && $formattedAns <= 50.00) {
+                                                    elseif ($formattedAns >= 10.00 && $formattedAns <= 20.00) {
                                                         echo "Bachelor of Science in Business Administration";
                                                     }
                                                     ?> 
@@ -487,9 +487,9 @@
     <?php
 $subjectCounts = [
     
-    'Bachelor of Science in Business Administration' => 0,
     'Bachelor of Science in Business ' => 0,
     'Bachelor of Science in Information Technology' => 0,
+    'Bachelor of Science in Business Administration' => 0,
 ];
 
 $selExmne = $conn->query("SELECT * FROM examinee_tbl et INNER JOIN exam_attempt ea ON et.exmne_id = ea.exmne_id ORDER BY ea.examat_id DESC");
@@ -505,7 +505,7 @@ if ($selExmne->rowCount() > 0) {
 
         if ($formattedAns >= 30.00 && $formattedAns <= 40.00) {
             $subject = "Bachelor of Science in Information Technology";
-        } elseif ($formattedAns >= 40.00 && $formattedAns <= 50.00) {
+        } elseif ($formattedAns >= 10.00 && $formattedAns <= 20.00) {
             $subject = "Bachelor of Science in Business Administration";
         } 
         elseif ($formattedAns >= 40.00 && $formattedAns <= 50.00) {

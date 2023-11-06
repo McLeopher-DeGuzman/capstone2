@@ -61,10 +61,12 @@ try {
             <!-- Chat messages will be displayed here -->
             <?php 
             if(isset($selExmneeData)){
-                echo '<div class="chat-message bot-message">congrats' . strtoupper($selExmneeData["exmne_fullname"]) . '</div>';
+                echo '<div class="chat-message bot-message">Congrats ' . strtoupper($selExmneeData["exmne_fullname"]) . '</div>';
             }
             ?>
          <div class="chat-message bot-message" onclick="sendMessage('How can I get career advice?')">How can I get career advice?</div>
+         <div class="chat-message bot-message" onclick="sendMessage('hello')">hello</div>
+
         </div>
         <!-- <div class="user-input">
             <button onclick="sendMessage('How can I get career advice?')">How can I get career advice?</button>
